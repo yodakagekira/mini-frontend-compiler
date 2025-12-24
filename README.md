@@ -141,16 +141,10 @@ bash unit_tests/run_all.sh
 
 - **Variables are lowered to stack slots** using `alloca` + `load/store`.
 - This keeps codegen simple and beginner-friendly.
-- LLVM can optimize these later (e.g., promote to registers), but optimization is intentionally minimal in this project.
+- LLVM can optimize these later (e.g., promote to registers), but optimization is intentionally weak.
 
 ---
 
-## (optional ideas)
-- More advanced LLVM_codegen
-- better diagnostics with line/column spans
-- basic optimization flags (`-O0/-O1`) via LLVM passes
-
----
 
 ## License
 Educational / personal project — add a license if you plan to share it publicly.
