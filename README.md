@@ -1,4 +1,4 @@
-# A small LLVM-Based Frontend Compiler (C++20 / LLVM)
+# A small LLVM-Based Frontend Compiler
 
 A small **compiler frontend** written in **modern C++ (C++20)** that targets **LLVM IR**.
 It implements the classic compiler pipeline:
@@ -50,6 +50,57 @@ flowchart TD
 - **sema/**: semantic checks (declared-before-use, duplicate declarations, function arity, scoping)
 - **llvm/**: minimal code generator that maps the AST to LLVM IR using `llvm::IRBuilder`
 - **main.cpp**: driver that runs the full pipeline and writes `out.ll`
+
+---
+
+## Grammar (Simplified EBNF)
+
+> This grammar matches the recursive-descent structure in `parser/` (expression precedence is encoded by rule layering).
+
+### Program & functions
+```ebnf
+program     → function*
+
+function    → "int" ident "(" params? ")" block
+params      → "int" ident ("," "int" ident)*
+block       → "{" stmt* "}"
+```
+
+### Statements
+```ebnf
+stmt        → declStmt
+            | assignStmt
+            | returnStmt
+            | ifStmt
+            | whileStmt
+            | block
+
+declStmt    → "int" ident "=" expr ";"
+assignStmt  → ident "=" expr ";"
+returnStmt  → "return" expr ";"
+
+ifStmt      → "if" "(" expr ")" stmt ("else" stmt)?
+whileStmt   → "while" "(" expr ")" stmt
+```
+
+### Expressions (precedence: `* /` > `+ -`)
+```ebnf
+expr        → term (("+" | "-") term)*
+term        → factor (("*" | "/") factor)*
+factor      → number
+            | ident
+            | call
+            | "(" expr ")"
+
+call        → ident "(" args? ")"
+args        → expr ("," expr)*
+```
+
+### Lexical rules (simplified)
+```ebnf
+ident       → [a-zA-Z]+
+number      → [0-9]+
+```
 
 ---
 
