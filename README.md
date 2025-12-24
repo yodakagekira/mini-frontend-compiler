@@ -147,4 +147,4 @@ bash unit_tests/run_all.sh
 
 
 ## License
-Educational / personal project — add a license if you plan to share it publicly.
+Free to use
