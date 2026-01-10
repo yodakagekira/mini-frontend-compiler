@@ -1,6 +1,6 @@
 # A small LLVM-Based Frontend Compiler
 
-A small **compiler frontend** written in **modern C++ (C++20)** that targets **LLVM IR**.
+A small **compiler frontend** written in **modern C++ 20** that targets **LLVM IR**.
 It implements the classic compiler pipeline:
 
 
