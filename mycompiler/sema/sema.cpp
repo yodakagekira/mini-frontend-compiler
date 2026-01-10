@@ -74,7 +74,6 @@ void Sema::visit(const IdentExpr& expr) {
 }
 
 void Sema::visit(const BinaryExpr& expr) {
-    // For now we just ensure subexpressions are semantically valid.
     if (expr.getLHS()) expr.getLHS()->accept(*this);
     if (expr.getRHS()) expr.getRHS()->accept(*this);
 }
@@ -104,7 +103,6 @@ void Sema::visit(const CallExpr& expr) {
 // ---------------- Statements ----------------
 
 void Sema::visit(const VarDeclStmt& stmt) {
-    // Safer rule for a tiny language: initializer cannot reference the variable being declared.
     if (stmt.getInit()) stmt.getInit()->accept(*this);
 
     Symbol sym;
@@ -149,12 +147,10 @@ void Sema::visit(const BlockStmt& stmt) {
 
 // ---------------- Top-level ----------------
 
-void Sema::visit(const Function& func) {
-    // Function symbols are declared in Program (first pass).
+void Sema::visit(const Function& func) {.
     // Here we just analyze its body in a new scope with parameters.
     enterScope();
 
-    // params are int vars
     for (const auto& param : func.getParams()) {
         Symbol ps;
         ps.kind = SymbolKind::Var;
@@ -168,7 +164,6 @@ void Sema::visit(const Function& func) {
 }
 
 void Sema::visit(const Program& prog) {
-    // Two-pass approach:
     // 1) declare all functions so calls work regardless of order.
     // 2) analyze all function bodies.
 
